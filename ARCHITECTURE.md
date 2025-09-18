@@ -96,4 +96,39 @@ sequenceDiagram
 | PUT    | `/books/{id}`   | Update a book          | `BookUpdate`   | `200 Book`                      | `404` not found, `422`      |
 | DELETE | `/books/{id}`   | Delete a book          | —              | `204 No Content`                | `404 Book not found`        |
 
+
+### Models
+
+**Book (response)**
+```json
+{
+  "id": 1,
+  "title": "Clean Code",
+  "author": "Robert C. Martin",
+  "year": 2008,
+  "isbn": "9780132350884",
+  "description": "A Handbook of Agile Software Craftsmanship"
+}
+```
+
+**BookCreate**
+```json
+{
+  "title": "string (1..200)",
+  "author": "string (1..200)",
+  "year": 2000,
+  "isbn": "string<=20",
+  "description": "string<=2000"
+}
+```
+
+**BookUpdate** (all fields optional)
+```json
+{
+  "title": "string",
+  "author": "string",
+  "year": 2000,
+  "isbn": "string",
+  "description": "string"
+}
 ```
