@@ -53,7 +53,7 @@ The app will be available at:
 
 ## 📝 Documentation
 
-See [ARCHITECTURE.md](ARCHITECTURE.md) or [BOOKLIST_API_DOC_UPDATED.md](BOOKLIST_API_DOC_UPDATED.md) for:
+See [ARCHITECTURE.md](ARCHITECTURE.md) for:
 
 - Sequence diagrams of all flows
 - Detailed API reference
