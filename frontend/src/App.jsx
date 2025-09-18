@@ -1,11 +1,14 @@
+// frontend/src/App.jsx
 import React, { useEffect, useState } from 'react'
-import { listBooks, createBook } from './api'
+import { listBooks, createBook, updateBook, deleteBook } from './api'
 import BookForm from './components/BookForm'
-
+import BookList from './components/BookList'
+import '../src/style.css'
 
 export default function App() {
   const [books, setBooks] = useState([])
   const [error, setError] = useState(null)
+  const [editing, setEditing] = useState(null)
 
   const load = async () => {
     try {
@@ -22,15 +25,38 @@ export default function App() {
     try {
       setError(null)
       const created = await createBook(payload)
-      setBooks(prev => [...prev, created]) // append new book
+      setBooks(prev => [...prev, created])
     } catch (e) {
       setError(e.message || 'Failed to add book')
     }
   }
 
+  const onUpdate = async (id, payload) => {
+    try {
+      setError(null)
+      const updated = await updateBook(id, payload)
+      setBooks(prev => prev.map(b => (b.id === id ? updated : b)))
+      setEditing(null)
+    } catch (e) {
+      setError(e.message || 'Failed to update book')
+    }
+  }
+
+  const onDelete = async (id) => {
+    if (!confirm('Delete this book?')) return
+    try {
+      setError(null)
+      await deleteBook(id)
+      setBooks(prev => prev.filter(b => b.id !== id))
+      if (editing?.id === id) setEditing(null)
+    } catch (e) {
+      setError(e.message || 'Failed to delete book')
+    }
+  }
+
   return (
     <div className="container">
-      <h1>📚 BookList 📚</h1>
+      <h1>📚 BookList</h1>
       {error && <div className="error">{error}</div>}
 
       <section className="panel">
@@ -40,18 +66,19 @@ export default function App() {
 
       <section className="panel">
         <h2>Books</h2>
-        {books.length === 0 ? (
-          <p>No books yet. Add one!</p>
-        ) : (
-          <ul>
-            {books.map(b => (
-              <li key={b.id}>
-                <strong>{b.title}</strong> — {b.author} {b.year ? `(${b.year})` : ''}
-              </li>
-            ))}
-          </ul>
-        )}
+        <BookList books={books} onEdit={setEditing} onDelete={onDelete} />
       </section>
+
+      {editing && (
+        <section className="panel">
+          <h2>Edit Book</h2>
+          <BookForm
+            initial={editing}
+            onSubmit={(payload) => onUpdate(editing.id, payload)}
+            onCancel={() => setEditing(null)}
+          />
+        </section>
+      )}
     </div>
   )
 }
