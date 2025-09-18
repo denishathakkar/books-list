@@ -1,8 +1,7 @@
-import React from "react"
-import { createRoot } from "react-dom/client"
+import React from 'react'
+import { createRoot } from 'react-dom/client'
+import App from './App.jsx'          
 
-function App() {
-  return <h1>📚 BookList App</h1>
-}
+import '../src/style.css'
 
-createRoot(document.getElementById("root")).render(<App />)
+createRoot(document.getElementById('root')).render(<App />)

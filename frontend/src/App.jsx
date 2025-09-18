@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { listBooks, createBook } from './api'
 import BookForm from './components/BookForm'
-import './styles.css'
+
 
 export default function App() {
   const [books, setBooks] = useState([])
@@ -30,7 +30,7 @@ export default function App() {
 
   return (
     <div className="container">
-      <h1>📚 BookList</h1>
+      <h1>📚 BookList 📚</h1>
       {error && <div className="error">{error}</div>}
 
       <section className="panel">
